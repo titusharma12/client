@@ -60,7 +60,12 @@ export default function EmailEditorPage() {
     if (!editor) return;
 
     const html = templates[selectedTemplate];
-    const designJson:any = { body: { rows: [{ cells: [1], columns: [{ contents: [{ type: 'text', values: { text: html } }], values: {} }], values: {} }], values: {} } };
+    const designJson:any = { body: { rows: [{ cells: [1], columns: [{ contents: [{ type: 'text', values: { text: html } },{
+      type:'image',
+      values:{src:{url:'https://images.unsplash.com/photo-1726137569962-456daf4ec02f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',width:'200px' ,height:'200px'},
+      altText:'Image Alt Text'
+    }
+    }], values: {} }], values: {} }], values: {} } };
     console.log('Loading design for', selectedTemplate, 'with heading:', heading);
     editor.loadDesign(designJson);
   };
@@ -87,7 +92,7 @@ export default function EmailEditorPage() {
 
   useEffect(() => {
     loadTemplate();
-  }, [selectedTemplate, heading]);
+  }, [selectedTemplate]);
 
   const exportHtml = () => {
      const editor = emailEditorRef.current?.editor;

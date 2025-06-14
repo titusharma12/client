@@ -1,8 +1,12 @@
-import Image from "next/image";
-import EmailEditorPage from "../Component/EmailEditor/EmailEditorPage";
+// src/app/page.tsx
+'use client';
 
-export default function Home() {
-  return (
-   <EmailEditorPage/>
-  );
+import dynamic from 'next/dynamic';
+
+const EmailEditorPage = dynamic(() => import('../Component/EmailEditor/EmailEditorPage'), {
+  ssr: false,
+});
+
+export default function Page() {
+  return <EmailEditorPage />;
 }
