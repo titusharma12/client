@@ -16,61 +16,135 @@ export default function EmailEditorPage() {
   const [heading, setHeading] = useState('🔥 Mega Sale Alert!');
   const [selectedTemplate, setSelectedTemplate] = useState<'t1' | 't2'>('t1');
 
-  // Define two templates that consume "heading"
   const templates = {
-    t1: ` <body style="margin:0; padding:0; font-family:Arial, sans-serif; background-color:#f4f4f4;">
-    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f4f4; padding:20px 0;">
-      <tr>
-        <td align="center">
-          <!-- Container -->
-          <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px; width:100%; background-color:#ffffff; border-radius:5px; overflow:hidden;">
-            <!-- Content -->
-            <tr>
-              <td style="padding:20px; text-align:center;">
-                <h1 style="color:#e63946; font-size:24px; margin:0 0 10px 0;">${heading}</h1>
-                <p style="margin:0 0 20px 0; font-size:16px; color:#333333;">Don’t miss out!</p>
-                <a href="#" style="background-color:#e63946; color:#ffffff; text-decoration:none; padding:12px 24px; display:inline-block; border-radius:4px; font-size:16px;">Buy Now</a>
-              </td>
-            </tr>
-            <!-- Footer -->
-            <tr>
-              <td align="center" style="padding:20px; background-color:#f1f1f1; color:#888888; font-size:12px;">
-                <p style="margin:0;">&copy; 2025 Your Company. All rights reserved.</p>
-                <p style="margin:5px 0 0 0;">1234 Market St, Suite 500, Your City, Country</p>
-                <p style="margin:5px 0 0 0;">
-                  <a href="#" style="color:#888888; text-decoration:underline;">Unsubscribe</a>
-                </p>
-              </td>
-            </tr>
-          </table>
-          <!-- End Container -->
-        </td>
-      </tr>
-    </table>
-  </body>`,
-    t2: `<div style="background:#111;color:white;padding:20px;border-radius:8px;">
-           <h1>${heading}</h1>
-           <p>Exclusive offer inside</p>
-           <a href="#" style="background:#ff9f1c;color:black;padding:10px;display:inline-block;">Claim Offer</a>
-         </div>`,
+    t1: {
+      body: {
+        rows: [
+          {
+            cells: [1],
+            columns: [
+              {
+                contents: [
+                  {
+                    type: 'text',
+                    values: {
+                      text: `<h1 style="text-align:center;">${heading}</h1><p style="text-align:center;">Limited Time Offer on All Products</p>`,
+                      textAlign: 'center',
+                    },
+                  },
+                  {
+                    type: 'image',
+                    values: {
+                      src: {url:'https://images.unsplash.com/photo-1726137569962-456daf4ec02f?q=80&w=2070&auto=format&fit=crop',width :'300px',height:'200px'},
+                      altText: 'Sale Banner',
+                     
+                     
+                    },
+                  },
+                  {
+                    type: 'button',
+                    values: {
+                      text: 'Shop Now',
+                      href: 'https://yourstore.com',
+                      backgroundColor: '#FF5722',
+                      color: '#ffffff',
+                      align: 'center',
+                      borderRadius: '4px',
+                      padding: '10px',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+    t2: {
+      body: {
+        rows: [
+          {
+            cells: [1],
+            columns: [
+              {
+                contents: [
+                  {
+                    type: 'text',
+                    values: {
+                      text: `<h1 style="text-align:center;">${heading}</h1><p style="text-align:center;">Check out our latest collection curated just for you.</p>`,
+                      textAlign: 'center',
+                    },
+                  },
+                  {
+                    type: 'image',
+                    values: {
+                      src: {url:'https://images.unsplash.com/photo-1726137569962-456daf4ec02f?q=80&w=2070&auto=format&fit=crop',width :'300px',height:'200px'},
+                      altText: 'Sale Banner',
+                     
+                     
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            cells: [2],
+            columns: [
+              {
+                contents: [
+                  {
+                    type: 'text',
+                    values: {
+                      text: '<h3>✨ Stylish Designs</h3><p>Find the trendiest looks of the season.</p>',
+                    },
+                  },
+                   {
+                    type: 'text',
+                    values: {
+                      text: '<h3>🛍️ Exclusive Deals</h3><p>Save big on top picks and limited editions.</p>',
+                    },
+                  },
+                ],
+              },
+             
+            ],
+          },
+          {
+            cells: [1],
+            columns: [
+              {
+                contents: [
+                  {
+                    type: 'button',
+                    values: {
+                      text: 'Explore Now',
+                      href: 'https://yourstore.com/new',
+                      backgroundColor: '#1E90FF',
+                      color: '#ffffff',
+                      align: 'center',
+                      borderRadius: '6px',
+                      padding: '14px',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
   };
 
   const loadTemplate = () => {
     const editor = emailEditorRef.current?.editor;
     if (!editor) return;
 
-    const html = templates[selectedTemplate];
-    const designJson:any = { body: { rows: [{ cells: [1], columns: [{ contents: [{ type: 'text', values: { text: html } },{
-      type:'image',
-      values:{src:{url:'https://images.unsplash.com/photo-1726137569962-456daf4ec02f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',width:'200px' ,height:'200px'},
-      altText:'Image Alt Text'
-    }
-    }], values: {} }], values: {} }], values: {} } };
-    console.log('Loading design for', selectedTemplate, 'with heading:', heading);
-    editor.loadDesign(designJson);
+    const template:any = templates[selectedTemplate];
+    console.log('Loading template:', selectedTemplate);
+    editor.loadDesign(template);
   };
 
-  // Debounced sync function
   const syncState = debounce(() => {
     const editor = emailEditorRef.current?.editor;
     if (!editor) return;
@@ -79,7 +153,6 @@ export default function EmailEditorPage() {
       const match = html.match(/<h1[^>]*>(.*?)<\/h1>/i);
       const newHeading = match?.[1] || heading;
       if (newHeading !== heading) {
-        console.log('Syncing heading to state:', newHeading);
         setHeading(newHeading);
       }
     });
@@ -95,7 +168,7 @@ export default function EmailEditorPage() {
   }, [selectedTemplate]);
 
   const exportHtml = () => {
-     const editor = emailEditorRef.current?.editor;
+    const editor = emailEditorRef.current?.editor;
     if (!editor) return;
 
     editor.exportHtml(({ html }) => {
@@ -104,104 +177,46 @@ export default function EmailEditorPage() {
   };
 
   return (
-    <div className="w-full h-full *min-h-0 bg-[#1d293b] grid grid-cols-12 gap-4">
-      <div className='w-full h-full flex flex-col min-h-0 col-span-4 bg-gray-100 p-4'>
+    <div className="w-full h-full bg-[#1d293b] grid grid-cols-12 gap-4">
+      <div className='col-span-4 bg-gray-100 p-4 overflow-y-auto'>
         <h3 className='text-black text-2xl underline text-center font-bold'>Choose Email Template Layout</h3>
-        <div className='w-full h-full mt-4 *min-h-0 grid grid-cols-2 gap-4 overflow-y-auto'>
-        {/* card type layout structure  */}
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 1</h4>
-            <p className='text-gray-600'>Modern and clean design</p>
-            <button onClick={() => setSelectedTemplate('t1')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 2</h4>
-            <p className='text-gray-600'>Bold and vibrant design</p>
-            <button onClick={() => setSelectedTemplate('t2')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 1</h4>
-            <p className='text-gray-600'>Modern and clean design</p>
-            <button onClick={() => setSelectedTemplate('t1')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 2</h4>
-            <p className='text-gray-600'>Bold and vibrant design</p>
-            <button onClick={() => setSelectedTemplate('t2')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 1</h4>
-            <p className='text-gray-600'>Modern and clean design</p>
-            <button onClick={() => setSelectedTemplate('t1')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 2</h4>
-            <p className='text-gray-600'>Bold and vibrant design</p>
-            <button onClick={() => setSelectedTemplate('t2')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 1</h4>
-            <p className='text-gray-600'>Modern and clean design</p>
-            <button onClick={() => setSelectedTemplate('t1')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 2</h4>
-            <p className='text-gray-600'>Bold and vibrant design</p>
-            <button onClick={() => setSelectedTemplate('t2')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 1</h4>
-            <p className='text-gray-600'>Modern and clean design</p>
-            <button onClick={() => setSelectedTemplate('t1')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 2</h4>
-            <p className='text-gray-600'>Bold and vibrant design</p>
-            <button onClick={() => setSelectedTemplate('t2')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 1</h4>
-            <p className='text-gray-600'>Modern and clean design</p>
-            <button onClick={() => setSelectedTemplate('t1')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 2</h4>
-            <p className='text-gray-600'>Bold and vibrant design</p>
-            <button onClick={() => setSelectedTemplate('t2')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 1</h4>
-            <p className='text-gray-600'>Modern and clean design</p>
-            <button onClick={() => setSelectedTemplate('t1')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 2</h4>
-            <p className='text-gray-600'>Bold and vibrant design</p>
-            <button onClick={() => setSelectedTemplate('t2')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 1</h4>
-            <p className='text-gray-600'>Modern and clean design</p>
-            <button onClick={() => setSelectedTemplate('t1')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
-          <div className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'>
-            <h4 className='text-lg font-semibold'>Template 2</h4>
-            <p className='text-gray-600'>Bold and vibrant design</p>
-            <button onClick={() => setSelectedTemplate('t2')} className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'>Select</button>
-          </div>
+        <div className='grid grid-cols-2 gap-4 mt-4'>
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className='bg-white p-4 h-40 rounded shadow hover:shadow-lg transition-shadow duration-200'
+            >
+              <h4 className='text-lg font-semibold'>Template {i % 2 === 0 ? 1 : 2}</h4>
+              <p className='text-gray-600'>{i % 2 === 0 ? 'Modern and clean design' : 'Bold and vibrant design'}</p>
+              <button
+                onClick={() => setSelectedTemplate(i % 2 === 0 ? 't1' : 't2')}
+                className='mt-2 bg-blue-500 text-white px-4 py-2 rounded'
+              >
+                Select
+              </button>
+            </div>
+          ))}
         </div>
       </div>
-      <div className='w-full h-full min-h-0 flex flex-col col-span-8 bg-white p-4'>
-
-      <div className="flex gap-2 mb-4">
-        <select value={selectedTemplate} onChange={e => setSelectedTemplate(e.target.value as any)}>
-          <option value="t1">Template 1</option>
-          <option value="t2">Template 2</option>
-        </select>
-        <button onClick={exportHtml}>Export HTML</button>
-        <span>Heading state: <strong>{heading}</strong></span>
-      </div>
-      <EmailEditor ref={emailEditorRef} onReady={onReady} />
+      <div className='col-span-8 h-full flex flex-col min-h-0 bg-white p-4'>
+        <div className="flex gap-4 items-center mb-4">
+          <select
+            className='border px-3 py-2 rounded'
+            value={selectedTemplate}
+            onChange={(e) => setSelectedTemplate(e.target.value as 't1' | 't2')}
+          >
+            <option value="t1">Template 1</option>
+            <option value="t2">Template 2</option>
+          </select>
+          <button
+            className='bg-green-600 text-white px-4 py-2 rounded'
+            onClick={exportHtml}
+          >
+            Export HTML
+          </button>
+          <span className='text-sm'>Heading: <strong>{heading}</strong></span>
+        </div>
+        <EmailEditor ref={emailEditorRef} onReady={onReady} />
       </div>
     </div>
   );
